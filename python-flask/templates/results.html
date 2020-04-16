@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="../static/style.css" />
+<title>Feedback Results</title>
+
+<style>
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  border: 1px solid #ddd;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even){background-color: #f2f2f2}
+</style>
+</head>
+<body>
+
+<h3>Feedback OverView</h3>
+<p> </p>
+
+<table>
+  
+  <thead>
+    <tr>
+      <th>No.</th>
+      <th>Attendee Name</th>
+      <th>Rating</th>
+      <th>Comments</th>
+
+    </tr>
+  </thead>
+  {% for item in feedback %}
+       <tbody> 
+   <tr>
+
+       <TD>{{item.id}}</TD>
+       <TD>{{item.attendee}}</TD>
+       <TD><SPAN>{{item.rating}}</SPAN></TD>
+       <TD><SPAN>{{item.comments}}</SPAN></TD>
+       </tbody>
+       {% endfor %}
+   </tr>
+
+</table>
+
+
+</body>
+</html>

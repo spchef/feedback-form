@@ -1,0 +1,4 @@
+password = 'f2Tn+vsk'
+SQLALCHEMY_DATABASE_URI = 'postgresql://fawb-dbuser:$password@db-svc/'
+MAIL_LOGIN = '7614b4fb634b1d'
+MAIL_PASSWORD = '5c38472345a31a'
