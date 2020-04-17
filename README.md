@@ -2,35 +2,52 @@
 
 App to display a feedback form using Python Flask, store the entered data in a PostgreSQL database 
 
-## Setup
+Getting started
+---------------
 
-* Create PostgreSQL database and add access credential `SQLALCHEMY_DATABASE_URI` to your own config.py file (not in repo)
+Download [Docker Desktop](https://www.docker.com/products/docker-desktop) for Mac or Windows. 
+Enable Kubernetes from Preferences->Kubernetes-> Enable Kubernetes
+
+Make sure you've installed kubectl binaries to talk to kubernetes API 
+
+Run the app in Kubernetes
+-------------------------
+
+Repo contains the yaml specifications to spin up flask as well as postgres microservices.
+
+First create the feedback namespace
+
+```
+$ kubectl create namespace vote
+```
+
+Run the following command to create the deployments and services objects:
+```
+$ kubectl create -f k8s-specifications/
+deployment "db" created
+service "db" created
+deployment "redis" created
+service "redis" created
+deployment "result" created
+service "result" created
+deployment "vote" created
+service "vote" created
+deployment "worker" created
+```
+
+The vote interface is then available on port 31000 on each host of the cluster, the result one is available on port 31001.
+
+
+
+
+## Setup on local
+
+* Create PostgreSQL database and add access credential `SQLALCHEMY_DATABASE_URI` to your own config.py file (Will be removed from repo soon*)
 * Create mailtrap.io account and add access credentials `MAIL_LOGIN` and `MAIL_PASSWORD` to your own config.py file (not in repo)
 * Run `pipenv shell` then `pipenv install` to install dependencies
 * Run `python app.py` to open app in server `localhost: 80`
 
-## Code Examples
 
-* code to submit completed form tto Postgres database
-
-```python
-@app.route('/submit', methods=['POST'])
-def submit():
-  if request.method == 'POST':
-    customer = request.form['customer']
-    dealer = request.form['dealer']
-    rating = request.form['rating']
-    comments = request.form['comments']
-    if customer == '' or dealer == '':
-      return render_template('index.html', message='Please enter required fields')
-    if db.session.query(Feedback).filter(Feedback.customer == customer).count() == 0:
-      data = Feedback(customer, dealer, rating, comments)
-      db.session.add(data)
-      db.session.commit()
-      send_mail(customer, dealer, rating, comments)
-      return render_template('success.html')
-    return render_template('index.html', message='You have already submitted feedback')
-```
 
 ## Status & To-do list
 
