@@ -16,7 +16,7 @@ if ENV == 'dev':
 
 else:
   app.debug = False
-  app.config['SQLALCHEMY_DATABASE_URI'] = config.HERO_DB_URI
+  app.config['SQLALCHEMY_DATABASE_URI'] = config.SQLALCHEMY_DATABASE_URI
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -79,4 +79,4 @@ def results():
 if __name__ == '__main__':
   db.create_all()
   app.debug = True
-  app.run()
+  app.run(host='0.0.0.0')

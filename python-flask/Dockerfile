@@ -2,11 +2,10 @@ FROM python:alpine3.7
 COPY . /app
 WORKDIR /app
 RUN apk update && \
-    apk add --virtual build-deps gcc musl-dev && \
-    apk add postgresql-dev
-RUN apk add bash
+    apk add  --no-cache --virtual build-deps gcc musl-dev && \
+    apk add --no-cache postgresql-dev
 RUN pip install -r requirements.txt 
 EXPOSE 5000 
-#ENTRYPOINT [ "python" ] 
-#CMD [ "app.py" ] 
+ENTRYPOINT [ "python" ] 
+CMD [ "app.py" ] 
 
