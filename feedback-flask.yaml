@@ -8,8 +8,7 @@ spec:
     app: feedback-flask
   ports:
   - protocol: "TCP"
-    port: 5000
-    targetPort: 5000
+    port: 80
   type: LoadBalancer
 
 ---
@@ -30,7 +29,7 @@ spec:
     spec:
       containers:
       - name: feedback-flask
-        image: pcsruniraj/feedback-flask:as01
+        image: pcsruniraj/feedback-flask:cov01
         imagePullPolicy: Always
         ports:
-        - containerPort: 5000
+        - containerPort: 80
