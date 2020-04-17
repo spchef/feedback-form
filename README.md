@@ -1,6 +1,6 @@
 # Python-Flask PostgreSQL 
 
-App to display a feedback form using Python Flask, store the entered data in a PostgreSQL database 
+Flask based feedback app buid in python , and results stored to postgres database .
 
 Getting started
 ---------------
@@ -9,6 +9,7 @@ Download [Docker Desktop](https://www.docker.com/products/docker-desktop) for Ma
 Enable Kubernetes from Preferences->Kubernetes-> Enable Kubernetes
 
 Make sure you've installed kubectl binaries to talk to kubernetes API 
+    * This is deployable to any kubernetes installation ( Verified with EKS and RKS )
 
 Run the app in Kubernetes
 -------------------------
@@ -18,35 +19,45 @@ Repo contains the yaml specifications to spin up flask as well as postgres micro
 First create the feedback namespace
 
 ```
-$ kubectl create namespace vote
+$ kubectl create namespace feedback
 ```
 
 Run the following command to create the deployments and services objects:
 ```
-$ kubectl create -f k8s-specifications/
-deployment "db" created
-service "db" created
-deployment "redis" created
-service "redis" created
-deployment "result" created
-service "result" created
-deployment "vote" created
-service "vote" created
-deployment "worker" created
+$ kubectl apply -f postgres.yaml
+service/postgres-svc created
+persistentvolumeclaim/postgres-pv-claim created
+deployment.extensions/postgres created
+```
+wait for the postgres service to start . 
+
+```
+$ kubectl create -f feedback-flask.yaml
+service/feedback-service created
+deployment.apps/feedback-flask created
+
 ```
 
-The vote interface is then available on port 31000 on each host of the cluster, the result one is available on port 31001.
+The feedback page is then available over external Loadbalancer IP ,and the results are  available on port /results Endpoint.
+```
+kubectl get svc -n feedback
+NAME               TYPE           CLUSTER-IP       EXTERNAL-IP                                                             PORT(S)        AGE
+feedback-service   LoadBalancer   172.20.212.180   <EXTERNAL IP/LB>   80:32556/TCP   117s
+postgres-svc       ClusterIP      172.20.194.193   <none>                                                                  5432/TCP       80s
 
+```
+## cleanup 
 
+```
+$ kubectl delete namespace feedback
 
-
+```
 ## Setup on local
 
 * Create PostgreSQL database and add access credential `SQLALCHEMY_DATABASE_URI` to your own config.py file (Will be removed from repo soon*)
 * Create mailtrap.io account and add access credentials `MAIL_LOGIN` and `MAIL_PASSWORD` to your own config.py file (not in repo)
 * Run `pipenv shell` then `pipenv install` to install dependencies
 * Run `python app.py` to open app in server `localhost: 80`
-
 
 
 ## Status & To-do list
