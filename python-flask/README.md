@@ -1,13 +1,13 @@
-# Python-Flask PostgreSQL Heroku
+# Python-Flask PostgreSQL App
 
 App to display a feedback form using Python Flask, store the entered data in a PostgreSQL database 
 
 ## Setup
 
-* Create PostgreSQL database and add access credential `SQLALCHEMY_DATABASE_URI` to your own config.py file (not in repo)
+* Create PostgreSQL database and add access credential `SQLALCHEMY_DATABASE_URI` to your own config.py file 
 * Create mailtrap.io account and add access credentials `MAIL_LOGIN` and `MAIL_PASSWORD` to your own config.py file (not in repo)
 * Run `pipenv shell` then `pipenv install` to install dependencies
-* Run `python app.py` to open app in server `localhost: 5000`
+* Run `python app.py` to open app in server `localhost:80`
 
 ## Code Examples
 
